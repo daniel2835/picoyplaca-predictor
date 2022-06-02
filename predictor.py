@@ -6,6 +6,18 @@ time_now = datetime.datetime.now()
 time_str = time_now.strftime("%A, %d/%m/%Y %H:%M")
 
 
+def getLastDigitLP(licensePlate):
+    spl = []
+    spl[:] = licensePlate
+    return spl[-1]
+
+
+def inputLicensePlate():
+    print("Please enter your car license plate")
+    licensePlate = input()
+    return licensePlate
+
+
 def welcomeMessage():
     print("Welcome to Pico y Placa Predictor")
     print("This program will help you know if your car is allowed to be used during \"Pico y Placa\" restriction in Quito-Ecuador.")
@@ -15,6 +27,12 @@ def welcomeMessage():
 
 def run():
     welcomeMessage()
+    licensePlate = inputLicensePlate()
+    # print test for licensePlate:
+    print(f"License {licensePlate}")
+    licensePlateLastDigit = getLastDigitLP(licensePlate)
+    # print test for lastdigit
+    print(licensePlateLastDigit)
 
 
 if __name__ == '__main__':
