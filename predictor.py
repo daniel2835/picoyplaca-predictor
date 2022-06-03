@@ -11,47 +11,28 @@ RESTRICTION_END2 = datetime.time(21, 0, 0)
 DAY_CORRESPONDING_PLATES = {"Monday": [1, 2], "Tuesday": [
     3, 4], "Wednesday": [5, 6], "Thursday": [7, 8], "Friday": [9, 0]}
 
-WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+# WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
 license_plate = ""
 license_plate_last_digit = 0
 
 
-def is_restricted_day_plate(day, plates):
-    """Returns True if the plate number has restriction on the corresponding weekday
-    """
-    for i in DAY_CORRESPONDING_PLATES:
-        if i == day:
-            plates_day = DAY_CORRESPONDING_PLATES.get(i)
-        else:
-            plates_day = ""
-            # print(DAY_CORRESPONDING_PLATES.get(i))
-    if plates in plates_day:
-        # print("You have restriction.")
-        return True
+def prediction(applicable_day, applicable_day_plate):
+    if (applicable_day and applicable_day_plate):
+        print("You can't move.")
     else:
-        return False
+        print("You can drive.")
 
 
-def asdf(day, plate_number):
-    if day in DAY_CORRESPONDING_PLATES:
-        if plate_number in DAY_CORRESPONDING_PLATES.items():
-            return True
-
-
-def is_applicable_plate_day(day):
-    # for day in DAY_CORRESPONDING_PLATES:
-    #     print(day)
-    if day in DAY_CORRESPONDING_PLATES:
+def is_applicable_day_plate(weekday, plate_last_digit):
+    if is_applicable_day(weekday) and plate_last_digit in DAY_CORRESPONDING_PLATES[weekday]:
         return True
     else:
         return False
 
 
 def is_applicable_day(day):
-    """ Returns True if day is weekday
-    """
-    if day in WEEKDAYS:
+    if day in DAY_CORRESPONDING_PLATES:
         return True
     else:
         return False
@@ -94,7 +75,7 @@ def input_date():
 def get_last_digit_lp(license_plate):
     spl = []
     spl[:] = license_plate
-    return spl[-1]
+    return int(spl[-1])
 
 
 def input_license_plate():
@@ -112,24 +93,25 @@ def welcome_message():
 
 def run():
     # welcome_message()
-    # license_plate = input_license_plate()
+    license_plate = input_license_plate()
     # print(f"\nYour license plate number is {license_plate}")
-    # license_plate_last_digit = get_last_digit_lp(license_plate)
+    license_plate_last_digit = get_last_digit_lp(license_plate)
     # print(f"which last digit number is {license_plate_last_digit}")
-    # sel_date = input_date()
-    # sel_day = get_week_day(sel_date)
+    sel_date = input_date()
+    sel_day = get_week_day(sel_date)
     # print(f"The selected date is {sel_date} and the day of the week is {sel_day}")
     # sel_time = input_time()
     # print(f"The selected time is {sel_time}")
+    applicable_day = is_applicable_day(sel_day)
+    applicable_day_plate = is_applicable_day_plate(
+        sel_day, license_plate_last_digit)
 
-    # print(is_applicable_day(sel_day))
+    # print("applicable day plate: " + str(applicable_day_plate))
 
-    # print(is_applicable_plate_day("Mondays"))
-
-    # print(asdf("Monday", 2))
-
-    print(is_restricted_day_plate("Tuesday", 3))
+    prediction(applicable_day, applicable_day_plate)
 
 
 if __name__ == '__main__':
-    run()
+    # print(is_applicable_day("Sunday"))
+    print(is_applicable_day_plate("Friday", 1))
+    # run()
