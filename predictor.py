@@ -3,10 +3,24 @@ import datetime
 time_now = datetime.datetime.now()
 time_str = time_now.strftime("%A, %d/%m/%Y %H:%M")
 
-start = datetime.time(6, 0, 0)
-end = datetime.time(9, 30, 0)
-# current = datetime.datetime.now().time()
-# print(time_in_range(start, end, current))
+RESTRICTION_START1 = datetime.time(6, 0, 0)
+RESTRICTION_END1 = datetime.time(9, 30, 0)
+RESTRICTION_START2 = datetime.time(16, 0, 0)
+RESTRICTION_END2 = datetime.time(21, 0, 0)
+
+WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+
+license_plate = ""
+license_plate_last_digit = 0
+
+
+def is_applicable_day(day):
+    """ Returns True if
+    """
+    if day in WEEKDAYS:
+        return True
+    else:
+        return False
 
 
 def time_in_range(start, end, sel_time):
@@ -30,7 +44,7 @@ def input_time():
 
 def get_week_day(date):
     """Given a date in string format dd/mm/yyyy,
-        returns corresponding weekday in string type
+        returns corresponding day of the week in string type
     """
     selected_date = datetime.datetime.strptime(date, "%d/%m/%Y").strftime("%A")
     return selected_date
@@ -63,16 +77,19 @@ def welcome_message():
 
 
 def run():
-    welcome_message()
-    license_plate = input_license_plate()
-    print(f"\nYour license plate number is {license_plate}")
-    license_plate_last_digit = get_last_digit_lp(license_plate)
-    print(f"which last digit number is {license_plate_last_digit}")
+    # welcome_message()
+    # license_plate = input_license_plate()
+    # print(f"\nYour license plate number is {license_plate}")
+    # license_plate_last_digit = get_last_digit_lp(license_plate)
+    # print(f"which last digit number is {license_plate_last_digit}")
     sel_date = input_date()
-    sel_weekday = get_week_day(sel_date)
-    print(f"The selected date is {sel_date} and its weekday is {sel_weekday}")
-    sel_time = input_time()
-    print(f"The selected time is {sel_time}")
+    sel_day = get_week_day(sel_date)
+    print(
+        f"The selected date is {sel_date} and the day of the week is {sel_day}")
+    # sel_time = input_time()
+    # print(f"The selected time is {sel_time}")
+
+    print(is_applicable_day(sel_day))
 
 
 if __name__ == '__main__':
