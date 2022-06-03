@@ -9,19 +9,19 @@ end = datetime.time(9, 30, 0)
 # print(time_in_range(start, end, current))
 
 
-def time_in_range(start, end, selTime):
+def time_in_range(start, end, sel_time):
     """Returns whether current is in the range [start, end]
         True if is within range -> restricted for driving
         False if is not within range -> not restricted for driving
     """
-    return start <= selTime <= end
+    return start <= sel_time <= end
 
 
 def input_time():
     """Receives a string input for time to calculate,
         and returns it in time object
     """
-    print("\nPlease enter the time:")
+    print("\nPlease enter the time to check restriction:")
     print("Time format is hh:mm")
     input_time_str = input()
     input_time = datetime.datetime.strptime(input_time_str, "%H:%M").time()
@@ -39,7 +39,7 @@ def get_week_day(date):
 def input_date():
     print("\nPlease enter the date to check restriction:")
     print("Date format is dd/mm/yyyy")
-    input_ate = input()
+    input_date = input()
     return input_date
 
 
@@ -63,22 +63,16 @@ def welcome_message():
 
 
 def run():
-    # welcomeMessage()
-    # licensePlate = inputLicensePlate()
-    # # print test for licensePlate:
-    # print(f"License {licensePlate}")
-    # licensePlateLastDigit = getLastDigitLP(licensePlate)
-    # # print test for lastdigit
-    # print(licensePlateLastDigit)
-    # selDate = inputDate()
-    # print(getWeekDay(selDate))
+    welcome_message()
+    license_plate = input_license_plate()
+    print(f"\nYour license plate number is {license_plate}")
+    license_plate_last_digit = get_last_digit_lp(license_plate)
+    print(f"which last digit number is {license_plate_last_digit}")
+    sel_date = input_date()
+    sel_weekday = get_week_day(sel_date)
+    print(f"The selected date is {sel_date} and its weekday is {sel_weekday}")
     sel_time = input_time()
-    print(sel_time)
-    print(start)
-    print(end)
-
-    time_range = time_in_range(start, end, sel_time)
-    print(time_range)
+    print(f"The selected time is {sel_time}")
 
 
 if __name__ == '__main__':
