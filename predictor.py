@@ -11,17 +11,12 @@ RESTRICTION_END2 = datetime.time(21, 0, 0)
 DAY_CORRESPONDING_PLATES = {"Monday": [1, 2], "Tuesday": [
     3, 4], "Wednesday": [5, 6], "Thursday": [7, 8], "Friday": [9, 0]}
 
-# WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-
-license_plate = ""
-license_plate_last_digit = 0
-
 
 def prediction(applicable_day, applicable_day_plate, applicable_hours):
     if (applicable_day and applicable_day_plate and applicable_hours):
-        print("You can't move.")
+        print("\nYour car can't be on the road.")
     else:
-        print("You can drive.")
+        print("\nYour car can be on the road")
 
 
 def is_applicable_hour(sel_time):
@@ -97,33 +92,33 @@ def input_license_plate():
 def welcome_message():
     print("Welcome to Pico y Placa Predictor")
     print("This program will help you know if your car is allowed to be used during \"Pico y Placa\" restriction in Quito-Ecuador.")
-    print("Note: All format dates must be dd/mm/yyyy and hours will use 24h format")
+    print("Note: All format dates must be dd/mm/yyyy and hours will use 24h format.")
     print(f"\n\nToday is {time_str}")
 
 
 def run():
-    # welcome_message()
+    welcome_message()
+
     license_plate = input_license_plate()
-    # print(f"\nYour license plate number is {license_plate}")
+    print(f"\nYour license plate number is {license_plate}")
     license_plate_last_digit = get_last_digit_lp(license_plate)
-    # print(f"which last digit number is {license_plate_last_digit}")
+    print(f"which last digit number is {license_plate_last_digit}")
+
     sel_date = input_date()
     sel_day = get_week_day(sel_date)
-    # print(f"The selected date is {sel_date} and the day of the week is {sel_day}")
+    print(
+        f"The selected date is {sel_date} and the day of the week is {sel_day}")
+
     sel_time = input_time()
-    # print(f"The selected time is {sel_time}")
+    print(f"The selected time is {sel_time}")
+
     applicable_day = is_applicable_day(sel_day)
     applicable_day_plate = is_applicable_day_plate(
         sel_day, license_plate_last_digit)
     applicable_time = is_applicable_hour(sel_time)
+
     prediction(applicable_day, applicable_day_plate, applicable_time)
 
 
 if __name__ == '__main__':
-    # print(is_applicable_day("Sunday"))
-    # print(is_applicable_day_plate("Friday", 1))
-    # print(is_applicable_hour("09:31"))
-    # input_time_str = input()
-    # time_in_restriction = is_applicable_hour(input_time_str)
-    # print(time_in_restriction)
     run()
