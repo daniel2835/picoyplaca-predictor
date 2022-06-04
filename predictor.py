@@ -17,11 +17,18 @@ license_plate = ""
 license_plate_last_digit = 0
 
 
-def prediction(applicable_day, applicable_day_plate):
-    if (applicable_day and applicable_day_plate):
+def prediction(applicable_day, applicable_day_plate, applicable_hours):
+    if (applicable_day and applicable_day_plate and applicable_hours):
         print("You can't move.")
     else:
         print("You can drive.")
+
+
+def is_applicable_hour(sel_time):
+    if time_in_range(RESTRICTION_START1, RESTRICTION_END1, sel_time) or time_in_range(RESTRICTION_START2, RESTRICTION_END2, sel_time):
+        return True
+    else:
+        return False
 
 
 def is_applicable_day_plate(weekday, plate_last_digit):
@@ -39,11 +46,14 @@ def is_applicable_day(day):
 
 
 def time_in_range(start, end, sel_time):
-    """Returns whether current is in the range [start, end]
+    """Returns whether selected time is in the range of [start, end]
         True if is within range -> restricted for driving
         False if is not within range -> not restricted for driving
     """
-    return start <= sel_time <= end
+    if start <= sel_time <= end:
+        return True
+    else:
+        return False
 
 
 def input_time():
@@ -100,18 +110,20 @@ def run():
     sel_date = input_date()
     sel_day = get_week_day(sel_date)
     # print(f"The selected date is {sel_date} and the day of the week is {sel_day}")
-    # sel_time = input_time()
+    sel_time = input_time()
     # print(f"The selected time is {sel_time}")
     applicable_day = is_applicable_day(sel_day)
     applicable_day_plate = is_applicable_day_plate(
         sel_day, license_plate_last_digit)
-
-    # print("applicable day plate: " + str(applicable_day_plate))
-
-    prediction(applicable_day, applicable_day_plate)
+    applicable_time = is_applicable_hour(sel_time)
+    prediction(applicable_day, applicable_day_plate, applicable_time)
 
 
 if __name__ == '__main__':
     # print(is_applicable_day("Sunday"))
-    print(is_applicable_day_plate("Friday", 1))
-    # run()
+    # print(is_applicable_day_plate("Friday", 1))
+    # print(is_applicable_hour("09:31"))
+    # input_time_str = input()
+    # time_in_restriction = is_applicable_hour(input_time_str)
+    # print(time_in_restriction)
+    run()
