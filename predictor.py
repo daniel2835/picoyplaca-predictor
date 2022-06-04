@@ -11,17 +11,23 @@ RESTRICTION_END2 = datetime.time(21, 0, 0)
 DAY_CORRESPONDING_PLATES = {"Monday": [1, 2], "Tuesday": [
     3, 4], "Wednesday": [5, 6], "Thursday": [7, 8], "Friday": [9, 0]}
 
-# WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-
 license_plate = ""
 license_plate_last_digit = 0
 
 
-def prediction(applicable_day, applicable_day_plate, applicable_hours):
-    if (applicable_day and applicable_day_plate and applicable_hours):
-        print("You can't move.")
+def prediction(applicable_day_plate, applicable_hours):
+    if (applicable_day_plate and applicable_hours):
+        print("You can't drive.")
     else:
         print("You can drive.")
+        if applicable_day_plate:
+            st1 = RESTRICTION_START1.strftime("%H:%M")
+            st2 = RESTRICTION_START2.strftime("%H:%M")
+            end1 = RESTRICTION_END1.strftime("%H:%M")
+            end2 = RESTRICTION_END2.strftime("%H:%M")
+            print("\nRemember that \"Pico y Placa\" restriction hours are:")
+            print(
+                f"From {st1} to {end1}, and from {st2} to {end2}.")
 
 
 def is_applicable_hour(sel_time):
@@ -33,9 +39,14 @@ def is_applicable_hour(sel_time):
 
 def is_applicable_day_plate(weekday, plate_last_digit):
     if is_applicable_day(weekday) and plate_last_digit in DAY_CORRESPONDING_PLATES[weekday]:
+        print(
+            f"Your license plate number has restriction on {weekday}s!\nPlease check hours for applicability.")
         return True
     else:
-        return False
+        print(
+            f"Your license plate number doesn't have restriction on {weekday}s!. You can drive all day.")
+        exit()
+        # return False
 
 
 def is_applicable_day(day):
@@ -58,10 +69,9 @@ def time_in_range(start, end, sel_time):
 
 def input_time():
     """Receives a string input for time to calculate,
-        and returns it in time object
+        and returns it in datetime object
     """
-    print("\nPlease enter the time to check restriction:")
-    print("Time format is hh:mm")
+    print("\nEnter the time [hh:mm] to check restriction:")
     input_time_str = input()
     input_time = datetime.datetime.strptime(input_time_str, "%H:%M").time()
     return input_time
@@ -70,14 +80,19 @@ def input_time():
 def get_week_day(date):
     """Given a date in string format dd/mm/yyyy,
         returns corresponding day of the week in string type
+        if the day is weekend, program will end.
     """
     selected_date = datetime.datetime.strptime(date, "%d/%m/%Y").strftime("%A")
-    return selected_date
+    if is_applicable_day(selected_date):
+        return selected_date
+    else:
+        print(
+            f"You can be on the road, since {selected_date} has no restrction.")
+        exit()
 
 
 def input_date():
-    print("\nPlease enter the date to check restriction:")
-    print("Date format is dd/mm/yyyy")
+    print("\nPlease enter the date [dd/mm/yyyy] to check restriction:")
     input_date = input()
     return input_date
 
@@ -97,33 +112,35 @@ def input_license_plate():
 def welcome_message():
     print("Welcome to Pico y Placa Predictor")
     print("This program will help you know if your car is allowed to be used during \"Pico y Placa\" restriction in Quito-Ecuador.")
+    print("Please remember that holidays don't apply ")
     print("Note: All format dates must be dd/mm/yyyy and hours will use 24h format")
     print(f"\n\nToday is {time_str}")
 
 
 def run():
-    # welcome_message()
+    welcome_message()
+
     license_plate = input_license_plate()
-    # print(f"\nYour license plate number is {license_plate}")
+    print(f"\nYour license plate number is {license_plate}")
+
     license_plate_last_digit = get_last_digit_lp(license_plate)
-    # print(f"which last digit number is {license_plate_last_digit}")
+    print(f"which last digit number is {license_plate_last_digit}")
+
     sel_date = input_date()
     sel_day = get_week_day(sel_date)
-    # print(f"The selected date is {sel_date} and the day of the week is {sel_day}")
-    sel_time = input_time()
-    # print(f"The selected time is {sel_time}")
-    applicable_day = is_applicable_day(sel_day)
+    print(
+        f"The selected date is {sel_date} and the day of the week is {sel_day}.")
+
     applicable_day_plate = is_applicable_day_plate(
         sel_day, license_plate_last_digit)
+
+    sel_time = input_time()
+    print(f"The selected time is {sel_time}")
+
+    # applicable_day = is_applicable_day(sel_day)
     applicable_time = is_applicable_hour(sel_time)
-    prediction(applicable_day, applicable_day_plate, applicable_time)
+    prediction(applicable_day_plate, applicable_time)
 
 
 if __name__ == '__main__':
-    # print(is_applicable_day("Sunday"))
-    # print(is_applicable_day_plate("Friday", 1))
-    # print(is_applicable_hour("09:31"))
-    # input_time_str = input()
-    # time_in_restriction = is_applicable_hour(input_time_str)
-    # print(time_in_restriction)
     run()
