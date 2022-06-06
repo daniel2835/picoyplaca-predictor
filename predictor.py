@@ -14,9 +14,9 @@ DAY_CORRESPONDING_PLATES = {"Monday": [1, 2], "Tuesday": [
 
 def prediction(applicable_day_plate, applicable_hours):
     if (applicable_day_plate and applicable_hours):
-        print("You can't drive.")
+        print("Your car can't be on the road.")
     else:
-        print("You can drive.")
+        print("Your car can be on the road.")
         if applicable_day_plate:
             st1 = RESTRICTION_START1.strftime("%H:%M")
             st2 = RESTRICTION_START2.strftime("%H:%M")
