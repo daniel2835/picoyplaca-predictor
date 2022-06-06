@@ -119,13 +119,11 @@ def run():
 
     license_plate = input_license_plate()
     print(f"\nYour license plate number is {license_plate}")
-
     license_plate_last_digit = get_last_digit_lp(license_plate)
     print(f"which last digit number is {license_plate_last_digit}")
 
     sel_date = input_date()
     sel_day = get_week_day(sel_date)
-
     applicable_day_plate = is_applicable_day_plate(
         sel_day, license_plate_last_digit)
 
